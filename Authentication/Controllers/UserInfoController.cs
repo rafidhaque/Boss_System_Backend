@@ -1,5 +1,7 @@
-﻿using Authentication.IServices;
+﻿
+using Auth.Core.Interfaces;
 using Authentication.Models;
+using Authentication.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,15 +17,15 @@ namespace Authentication.Controllers
     [ApiController]
     public class UserInfoController : ControllerBase
     {
-        private IUserInfoService _userInfoService;
-        public UserInfoController(IUserInfoService userInfoService)
+        UserInfoService _service;
+        public UserInfoController(UserInfoService service)
         {
-            _userInfoService = userInfoService;
+            _service = service;
         }
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]AuthenticationModel model)
         {
-           var user= _userInfoService.Authenticate(model.UserName, model.Password);
+           var user= _service.Authenticate(model.UserName, model.Password);
             if (user == null) return BadRequest(new { message = "username or Password is incorrect" });
             return Ok(user);
         }

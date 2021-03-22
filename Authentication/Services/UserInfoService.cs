@@ -1,5 +1,6 @@
-﻿using Authentication.Helper;
-using Authentication.IServices;
+﻿using Auth.Core.Dto;
+using Auth.Core.Interfaces;
+using Authentication.Helper;
 using Authentication.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -13,21 +14,24 @@ using System.Threading.Tasks;
 
 namespace Authentication.Services
 {
-    public class UserInfoService : IUserInfoService
+    public class UserInfoService 
     {
-        private List<UserInfo> userInfos = new List<UserInfo> {
-            new UserInfo{ UserInfoId=Guid.NewGuid(),FullName="First Last",Username="Test1",
-            Password="1234"}
-        };
+        //private List<UserInfo> userInfos = new List<UserInfo> {
+        //    new UserInfo{ UserInfoId=Guid.NewGuid(),FullName="First Last",Username="Test1",
+        //    Password="1234"}
+        //};
         private readonly AppSettings _appSettings;
-        public UserInfoService(IOptions<AppSettings> appsettings)
+        IUserInfoService _userService;
+        public UserInfoService(IOptions<AppSettings> appsettings, IUserInfoService userService)
         {
             _appSettings = appsettings.Value;
+            _userService = userService;
         }
          
         public UserInfo Authenticate(string username, string password)
         {
-            var user = userInfos.SingleOrDefault(x => x.Username == username && x.Password == password);
+            //var user = userInfos.SingleOrDefault(x => x.Username == username && x.Password == password);
+            var user = _userService.Authenticate(username, password);
             if (user == null) return null;
             var tokenHandler = new JwtSecurityTokenHandler();
             var ket = Encoding.ASCII.GetBytes(_appSettings.Secret);
@@ -43,9 +47,6 @@ namespace Authentication.Services
             user.Token = tokenHandler.WriteToken(token);
             return user;
         }
-        public IEnumerable<UserInfo> GetAll()
-        {
-            return userInfos;
-        }
+         
     }
 }

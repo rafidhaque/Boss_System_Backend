@@ -1,10 +1,10 @@
-﻿using Authentication.Models;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-namespace Authentication.IServices
+using Auth.Core.Dto;
+namespace Auth.Core.Interfaces
 {
     public interface IUserInfoService
     {

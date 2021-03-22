@@ -15,8 +15,11 @@ using Authentication.Helper;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Authentication.IServices;
 using Authentication.Services;
+using Auth.Core.Interfaces;
+using Auth.Service;
+using Auth.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace Authentication
 {
@@ -33,6 +36,9 @@ namespace Authentication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<ApplicationDbContext>(options =>
+              options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"),
+              b => b.MigrationsAssembly("Auth.Api")));
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
             var appSettings = appSettingsSection.Get<AppSettings>();
@@ -57,7 +63,8 @@ namespace Authentication
                         ValidateAudience = false
                     };
                 });
-            services.AddScoped<IUserInfoService, UserInfoService>();
+            services.AddScoped<IUserInfoService, Authenticator>();
+            services.AddScoped(typeof(UserInfoService));
             #region Swagger
 
             services.AddSwaggerGen(c =>
@@ -87,6 +94,20 @@ namespace Authentication
                         new string[] {}
                     }
                 });
+            });
+
+            #endregion
+
+            #region CORS
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .SetIsOriginAllowed(origin => true)
+                        .AllowCredentials());
             });
 
             #endregion
