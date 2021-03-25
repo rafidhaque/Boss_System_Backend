@@ -7263,11 +7263,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lalin\\source\\repos\\TwilloSampleApi\\TwilloSampleApi\\TwilloSampleApi.csproj",
+      "projectUniqueName": "F:\\Boss_System_Backend\\TwilioSampleApi\\TwilloSampleApi\\TwilloSampleApi.csproj",
       "projectName": "TwilloSampleApi",
-      "projectPath": "C:\\Users\\lalin\\source\\repos\\TwilloSampleApi\\TwilloSampleApi\\TwilloSampleApi.csproj",
+      "projectPath": "F:\\Boss_System_Backend\\TwilioSampleApi\\TwilloSampleApi\\TwilloSampleApi.csproj",
       "packagesPath": "C:\\Users\\lalin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lalin\\source\\repos\\TwilloSampleApi\\TwilloSampleApi\\obj\\",
+      "outputPath": "F:\\Boss_System_Backend\\TwilioSampleApi\\TwilloSampleApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\lalin\\AppData\\Roaming\\NuGet\\NuGet.Config",
